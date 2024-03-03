@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
             height: 35,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
             child: Column(
               children: [
                 TextFormField(
