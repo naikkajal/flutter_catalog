@@ -7,7 +7,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String name="";
+  String name = "";
+  bool changeButton = false;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -34,6 +35,10 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: "Enter Username",
                     labelText: "Username",
                   ),
+                  onChanged: (value) {
+                    name = value;
+                    setState(() {});
+                  },
                 ),
                 TextFormField(
                   obscureText: true,
@@ -45,12 +50,35 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 90,
                 ),
-                ElevatedButton(
-                  child: Text("Login"),
-                  style: TextButton.styleFrom(minimumSize: Size(150, 50)),
-                  onPressed: () {
+                InkWell(
+                  onTap: () async {
+                    setState(() {
+                      changeButton = true;
+                    });
+                    await Future.delayed(Duration(seconds: 1));
                     Navigator.pushNamed(context, MyRoutes.homeRoute);
                   },
+                  child: AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    width: changeButton ? 70 : 150,
+                    height: 50,
+                    alignment: Alignment.center,
+                    child: changeButton
+                        ? Icon(
+                            Icons.done,
+                            color: Colors.white,
+                          )
+                        : Text("Login",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)),
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurple,
+                        //shape: changeButton?BoxShape.circle:BoxShape.rectangle,
+                        borderRadius:
+                            BorderRadius.circular(changeButton ? 100 : 15)),
+                  ),
                 )
               ],
             ),
@@ -60,5 +88,3 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 }
-
-
