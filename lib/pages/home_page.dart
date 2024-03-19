@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter_catalog/models/catalog.dart';
 import 'package:flutter_catalog/widgets/drawer.dart';
 import 'package:flutter_catalog/widgets/item_widget.dart';
-im';
+
 
 class HomePage extends StatefulWidget {
   @override
