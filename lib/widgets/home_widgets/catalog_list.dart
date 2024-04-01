@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_catalog/models/cart.dart';
 import 'package:flutter_catalog/models/catalog.dart';
 import 'package:flutter_catalog/pages/home_detail_page.dart';
 import 'package:flutter_catalog/widgets/home_widgets/catalog_image.dart';
@@ -14,8 +15,8 @@ class CatalogList extends StatelessWidget {
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items[index];
         return InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeDetailPage(key: UniqueKey(), catalog: catalog))),
-          child: CatalogItem(key: UniqueKey(), catalog: catalog));
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDetailPage(key: UniqueKey(), catalog: catalog))),
+          child: CatalogItem(catalog: catalog));
       },
     );
   }
@@ -42,7 +43,7 @@ class CatalogItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                catalog.name.text.lg.bold.color(Colors.black).make(), // Updated line
+                catalog.name.text.lg.bold.color(Colors.black).make(),
                 catalog.desc.text.textStyle(context.captionStyle).make(),
                 10.heightBox,
                 ButtonBar(
@@ -50,14 +51,7 @@ class CatalogItem extends StatelessWidget {
                   buttonPadding: EdgeInsets.zero,
                   children: [
                     "\$${catalog.price}".text.bold.xl.make(),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.black), // Change background color to black
-                        shape: MaterialStateProperty.all(StadiumBorder()),
-                      ),
-                      child: "Add To Cart".text.color(Colors.white).make(), // Change text color to white
-                    ).wh(100, 50)
+                    _AddToCart(catalog: catalog),
                   ],
                 ).pOnly(right: 8.0)
               ],
@@ -66,5 +60,39 @@ class CatalogItem extends StatelessWidget {
         ],
       ),
     ).white.rounded.square(150).make().py16();
+  }
+}
+
+class _AddToCart extends StatefulWidget {
+  final Item catalog;
+  const _AddToCart({
+    required this.catalog,
+  });
+
+  @override
+  __AddToCartState createState() => __AddToCartState();
+}
+
+class __AddToCartState extends State<_AddToCart> {
+  bool isAdded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        isAdded = isAdded.toggle();
+        final _catalog = CatalogModel();
+        final _cart = CartModel();
+        _cart.catalog = _catalog;
+        _cart.add(widget.catalog);
+        setState(() {});
+      },
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(
+          StadiumBorder(),
+        ),
+      ),
+      child: isAdded ? Icon(Icons.done) : "Add to cart".text.make(),
+    );
   }
 }

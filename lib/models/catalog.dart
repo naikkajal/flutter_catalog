@@ -1,7 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter_catalog/models/cart.dart';
+
 class CatalogModel {
+  static final catModel = CatalogModel._internal();
+
+  CatalogModel._internal();
+
+  factory CatalogModel() => catModel;
   static List<Item> items=[];
 
   // Get Item by ID

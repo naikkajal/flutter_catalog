@@ -1,34 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_catalog/models/cart.dart';
 import 'package:velocity_x/velocity_x.dart';
-
-class MyTheme {
-  static ThemeData lightTheme(BuildContext context) => ThemeData(
-        primarySwatch: Colors.deepPurple,
-        fontFamily: 'Poppins',
-        appBarTheme: AppBarTheme(
-          color: Colors.white,
-          elevation: 0.0,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-      );
-
-  static ThemeData darkTheme(BuildContext context) => ThemeData(
-        fontFamily: 'Poppins',
-        cardColor: Colors.black,
-        canvasColor: Vx.gray900,
-        appBarTheme: AppBarTheme(
-          color: Colors.white,
-          elevation: 0.0,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-      );
-}
 
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: null,
+      backgroundColor: context.canvasColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: "Cart".text.make(),
@@ -47,17 +25,23 @@ class CartPage extends StatelessWidget {
 class _CartTotal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _cart = CartModel();
     return SizedBox(
       height: 200,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          "\$9999".text.xl5.make(),
+          "\$${_cart.totalPrice}".text.xl5.make(),
           30.widthBox,
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: "Buying not supported yet.".text.make(),
+              ));
+            },
             style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.black),),
+              // No custom button color set here
+            ),
             child: "Buy".text.white.make(),
           ).w32(context)
         ],
@@ -72,34 +56,19 @@ class _CartList extends StatefulWidget {
 }
 
 class __CartListState extends State<_CartList> {
+  final _cart = CartModel();
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 5,
+      itemCount: _cart.items?.length,
       itemBuilder: (context, index) => ListTile(
         leading: Icon(Icons.done),
         trailing: IconButton(
           icon: Icon(Icons.remove_circle_outline),
           onPressed: () {},
         ),
-        title: "Item 1".text.make(),
+        title: _cart.items[index].name.text.make(),
       ),
-    );
-  }
-}
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: MyTheme.lightTheme(context),
-      darkTheme: MyTheme.darkTheme(context),
-      home: CartPage(),
     );
   }
 }
