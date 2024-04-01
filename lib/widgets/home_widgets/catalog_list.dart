@@ -42,7 +42,7 @@ class CatalogItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                catalog.name.text.lg.color(MyTheme.darkBluishColor).bold.make(),
+                catalog.name.text.lg.bold.color(Colors.black).make(), // Updated line
                 catalog.desc.text.textStyle(context.captionStyle).make(),
                 10.heightBox,
                 ButtonBar(
@@ -56,8 +56,8 @@ class CatalogItem extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all(Colors.black), // Change background color to black
                         shape: MaterialStateProperty.all(StadiumBorder()),
                       ),
-                      child: "Buy".text.color(Colors.white).make(), // Change text color to white
-                    )
+                      child: "Add To Cart".text.color(Colors.white).make(), // Change text color to white
+                    ).wh(100, 50)
                   ],
                 ).pOnly(right: 8.0)
               ],
@@ -68,8 +68,3 @@ class CatalogItem extends StatelessWidget {
     ).white.rounded.square(150).make().py16();
   }
 }
-
-
-
-
-
